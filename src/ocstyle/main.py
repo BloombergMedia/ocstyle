@@ -18,6 +18,7 @@
 import argparse
 import os.path
 import sys
+import yaml
 
 import parcon
 
@@ -48,13 +49,26 @@ def main():
   parser = argparse.ArgumentParser()
   parser.add_argument("--maxLineLength", action="store", type=int, default=120, help="Maximum line length")
   args, filenames = parser.parse_known_args()
-
+  
+  config = {}
+  
+  if os.path.isfile(".ocstyle.yml"):
+    with open(".ocstyle.yml", 'r') as stream:
+      config = yaml.safe_load(stream)
+  
+  for fpath in config["included"]:
+    for root, dirs, files in os.walk(fpath):
+      for file in files:
+        if file.endswith(".h") or file.endswith(".m"):
+           filenames.append(os.path.join(root, file))
+  
   for filename in filenames:
+    absfilepath = os.path.abspath(filename)
     if not os.path.isdir(filename):
       print filename
       for part in check(filename, args.maxLineLength):
         if isinstance(part, rules.Error):
-          print 'ERROR: %s' % part
+          print absfilepath+':%s' % part
         else:
           print 'unparsed: %r' % part
     print
