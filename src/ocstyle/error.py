@@ -39,8 +39,8 @@ class Error(object):
 
   def __str__(self):
     line, offset = self.lineAndOffset()
-    return '%d:%d [%d] - %s - %s' % (line, offset, self.position, self.kind, self.message)
+    return '%d:%d: warning: [%d] - %s - %s' % (line, offset, self.position, self.kind, self.message)
 
 
   def __repr__(self):
-    return 'Error<%s>' % self
+    return '<%s>' % self
