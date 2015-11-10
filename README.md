@@ -90,6 +90,15 @@ For the motivated pull requesters out there, other notable TODOs include:
 
 * Fix various whitespace false negatives noted in test files
 
+### Configuration
+
+Configure ocstyle by adding a `.ocstyle.yml` file from the directory you'll
+run ocstyle from. The following parameters can be configured:
+
+```yaml
+included: # paths to include during linting. `--path` is ignored if present. takes precendence over `excluded`.
+  - Source
+```
 
 # Links
 
